@@ -66,7 +66,7 @@ class capstone_sql_queries:
     #create dim_driver table
     create_dim_driver = """
         CREATE TABLE IF NOT EXISTS dim_driver (
-            driver_id INTEGER,
+            driver_id INTEGER PRIMARY KEY,
             gender TEXT,
             race_id INTEGER,
             driver_city TEXT,
@@ -237,9 +237,9 @@ class capstone_sql_queries:
     #create fact_traffic_violations table
     create_fact_traffic_violations = """
         CREATE TABLE fact_traffic_violations (
-           id_date INTEGER,
+           id_date INTEGER REFERENCES dim_date,
            time_of_stop TEXT,
-           subagency_id INTEGER,
+           subagency_id INTEGER REFERENCES dim_subagency,
            stop_desc TEXT,
            location TEXT,
            latitude NUMERIC,
@@ -255,13 +255,13 @@ class capstone_sql_queries:
            flag_alcohol TEXT,
            flag_work_zone TEXT,
            flag_state TEXT,
-           vehicletype_id INTEGER,
-           violation_type_id INTEGER,
+           vehicletype_id INTEGER REFERENCES dim_vehicletype,
+           violation_type_id INTEGER REFERENCES dim_violation_type,
            CHARge TEXT,
            article TEXT,
            accident_contribution TEXT,
-           driver_id INTEGER,
-           arrest_type_id CHAR(1),
+           driver_id INTEGER REFERENCES dim_driver,
+           arrest_type_id CHAR REFERENCES dim_arrest_type,
            geolocation TEXT,
            PRIMARY KEY (id_date,time_of_stop,subagency_id,vehicletype_id,driver_id,arrest_type_id)
         );
@@ -270,13 +270,13 @@ class capstone_sql_queries:
     insert_fact_traffic_violations = """
         INSERT INTO fact_traffic_violations
         SELECT DISTINCT
-        a2.id_date REFERENCES dim_date,
+        a2.id_date,
         a1.time_of_stop,
-        a3.subagency_id REFERENCES dim_subagency,
+        a3.subagency_id,
         a1.description stop_desc,
         a1.location,
-        a1.latitude,
-        a1.longitude,
+        CAST(a1.latitude as NUMERIC),
+        CAST(a1.longitude as NUMERIC),
         a1.accident flag_accident,
         a1.belts flag_belts,
         a1.personal_injury flag_personal_injury,
@@ -288,13 +288,13 @@ class capstone_sql_queries:
         a1.alcohol flag_alcohol,
         a1.work_zone flag_work_zone,
         a1.state flag_state,
-        a4.vehicletype_id REFERENCES dim_vehicletype,
-        a5.violation_type_id REFERENCES dim_violation_type,
+        a4.vehicletype_id,
+        a5.violation_type_id,
         a1.charge,
         a1.article,
         a1.contributed_to_accident accident_contribution,
-        a7.driver_id REFERENCES dim_driver,
-        a8.arrest_type_id REFERENCES dim_arrest_type,
+        a7.driver_id,
+        a8.arrest_type_id,
         a1.geolocation
         FROM
         stg_traffic_violations a1
@@ -372,4 +372,14 @@ class capstone_sql_queries:
         JOIN dim_date a2 ON CAST(a1.date_of_stop AS DATE) = a2.date_actual
         JOIN dim_subagency a3 ON a1.subagency = a3.subagency_desc
         group by a2.id_date, a3.subagency_id
+    """
+    #Creating index on fact tables
+    create_index_stg_traffic_violations = """
+        create index index_date on stg_traffic_violations(date_of_stop);
+        create index index_subagency on stg_traffic_violations(subagency);
+        create index index_vehicletype on stg_traffic_violations(vehicletype);
+        create index index_violation_type on stg_traffic_violations(violation_type);
+        create index index_arrest_type on stg_traffic_violations(arrest_type);
+        create index index_combo_v1 on stg_traffic_violations(year,make,model,color);
+        create index index_combo_v2 on stg_traffic_violations(gender,driver_city,driver_state,dl_state);
     """
