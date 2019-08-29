@@ -16,7 +16,7 @@ class CreateIndexOperator(BaseOperator):
 
         logging.info(f"Creating index")
         self.cur.execute(self.sql)
-        
+
         end = datetime.now()
         time_taken = (end-start)
         logging.info(f"Time taken:{time_taken}")
