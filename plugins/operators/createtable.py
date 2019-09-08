@@ -4,6 +4,7 @@ import pandas as pd
 from datetime import datetime
 import logging
 
+
 class CreateTableOperator(BaseOperator):
 
     @apply_defaults
@@ -14,8 +15,10 @@ class CreateTableOperator(BaseOperator):
         self.cur = cur
 
     def execute(self, context):
+        """This function has the definition necessary for creating the fact and dimension tables"""
         start = datetime.now()
         logging.info(f"Creating table {self.table}")
+        print(self.sql)
         self.cur.execute(self.sql)
         logging.info(f"Created table {self.table}")
         end = datetime.now()

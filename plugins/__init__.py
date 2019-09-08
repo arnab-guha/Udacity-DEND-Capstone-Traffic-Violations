@@ -19,9 +19,10 @@ import helpers
 class UdacityPlugin(AirflowPlugin):
     name = "udacity_plugin"
     operators = [
-        operators.LoadStagingTableOperator,
+        operators.loadTableOperator,
         operators.CreateTableOperator
     ]
     helpers = [
-        helpers.sql_queries
+        helpers.sql,
+        helpers.etl
     ]

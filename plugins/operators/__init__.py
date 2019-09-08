@@ -1,16 +1,8 @@
-from operators.stage_redshift import StageToRedshiftOperator
-from operators.load_fact import LoadFactOperator
-from operators.load_dimension import LoadDimensionOperator
-from operators.data_quality import DataQualityOperator
-from operators.loadStagingTable import LoadStagingTableOperator
 from operators.createtable import CreateTableOperator
+from operators.load_table import loadTableOperator
 
 
 __all__ = [
-    'StageToRedshiftOperator',
-    'LoadFactOperator',
-    'LoadDimensionOperator',
-    'DataQualityOperator',
-    'LoadStagingTableOperator',
-    'CreateTableOperator'
+    'CreateTableOperator',
+    'loadTableOperator'
 ]
