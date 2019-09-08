@@ -2,12 +2,12 @@
 Capstone project for Udacity Data Engineering Nanodegree course
 
 ### Objective:
-The objective of this project is to create a data model and ETL flow for Montgomery County Police department which will load Traffic violations and crash details. The data comes from th MCP's open data website (https://data.montgomerycountymd.gov/browse). The data spans across multiple years and have more than a million rows. For this project we have used Traffic violation data and Vehicle Crash details data.
+The objective of this project is to create a data model and ETL flow for Montgomery County Police department which will load Traffic violations and crash details. The data comes from the MCP's open data website (https://data.montgomerycountymd.gov/browse). The data spans across multiple years and have more than a million rows. For this project we have used Traffic violation data and Vehicle Crash details data.
 
 ### Datasource Details:
-The data is gathered from Montgomery County Police department's open data catalog. Following datasets are in scope of this project:
-- traffic-violation.csv
-- crash-reporting-drivers-data.csv
+The data is gathered from Kaggle and Montgomery County Police department's open data catalog. Following datasets are in scope of this project:
+- traffic-violation.csv (source: https://www.kaggle.com/felix4guti/traffic-violations-in-usa)
+- crash-reporting-drivers-data.csv (source: https://data.montgomerycountymd.gov/Public-Safety/Crash-Reporting-Drivers-Data/mmzv-x632)
 
 Here are some snippets of the datasets:
 
@@ -30,7 +30,7 @@ The final data model consists of 12 dimension and 3 fact tables. Following is th
 ![Data-Model](https://github.com/arnab-guha/Udacity-DEND-Capstone-Traffic-Violations/blob/master/images/data%20model.PNG)
 
 ### Data Pipeline Design
-The data pipline was designed using Apache Airflow. The whole process was segregated in several phases:
+The data pipeline was designed using Apache Airflow. The whole process was segregated in several phases:
 - Creating the dimension tables
 - Loading the dimension tables
 - Creating the facts tables
