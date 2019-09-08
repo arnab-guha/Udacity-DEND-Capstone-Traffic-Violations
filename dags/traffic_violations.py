@@ -10,7 +10,7 @@ import psycopg2 as ps
 
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
-from airflow.operators import (LoadStagingTableOperator,CreateTableOperator,LoadTableOperator,CreateIndexOperator)
+from airflow.operators import (CreateTableOperator,LoadTableOperator)
 #from airflow.operators import CreateTableOperator
 
 from helpers import capstone_sql_queries as sql
